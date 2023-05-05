@@ -1,4 +1,4 @@
-module github.com/tiktoken-go/tokenizer
+module github.com/aavaz-ai/tokenizer
 
 go 1.17
 

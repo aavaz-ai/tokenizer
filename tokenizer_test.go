@@ -3,7 +3,7 @@ package tokenizer_test
 import (
 	"testing"
 
-	"github.com/tiktoken-go/tokenizer"
+	"github.com/aavaz-ai/tokenizer"
 )
 
 func TestCl100kEncoding(t *testing.T) {
