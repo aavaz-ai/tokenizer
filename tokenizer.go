@@ -74,7 +74,7 @@ package tokenizer
 import (
 	"errors"
 
-	"github.com/tiktoken-go/tokenizer/codec"
+	"github.com/aavaz-ai/tokenizer/codec"
 )
 
 var (
