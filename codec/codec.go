@@ -2,7 +2,6 @@ package codec
 
 import (
 	"fmt"
-	"math"
 
 	"github.com/dlclark/regexp2"
 )
@@ -14,6 +13,11 @@ type Codec struct {
 	splitRegexp       *regexp2.Regexp
 	name              string
 }
+
+const (
+	intSize = 32 << (^uint(0) >> 63) // 32 or 64
+	MaxUint = 1<<intSize - 1
+)
 
 func (c *Codec) GetName() string {
 	return c.name
@@ -75,7 +79,7 @@ func (c *Codec) bpe(piece []byte) ([]uint, []string) {
 
 	parts := make([]part, len(piece)+1)
 	for i := 0; i < len(parts); i++ {
-		parts[i] = part{i, math.MaxUint}
+		parts[i] = part{i, MaxUint}
 	}
 
 	getRank := func(index, skip int) uint {
@@ -86,7 +90,7 @@ func (c *Codec) bpe(piece []byte) ([]uint, []string) {
 				return rank
 			}
 		}
-		return math.MaxUint
+		return MaxUint
 	}
 
 	for i := 0; i < len(parts)-2; i++ {
@@ -98,7 +102,7 @@ func (c *Codec) bpe(piece []byte) ([]uint, []string) {
 			break
 		}
 
-		minRank := uint(math.MaxUint)
+		minRank := uint(MaxUint)
 		minIndex := 0
 		for i, p := range parts[:len(parts)-1] {
 			if p.rank < minRank {
@@ -107,7 +111,7 @@ func (c *Codec) bpe(piece []byte) ([]uint, []string) {
 			}
 		}
 
-		if minRank == math.MaxUint {
+		if minRank == MaxUint {
 			break
 		}
 
